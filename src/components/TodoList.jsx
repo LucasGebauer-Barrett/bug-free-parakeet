@@ -27,9 +27,10 @@ function TodoList({ className }) {
                         />
                     ))}
                 </ul>
-                <button onClick={store.addItem}>
+                <button class="addItemButton" onClick={store.addItem}>
                     Add New Item
                 </button>
+            
             </section>
             <footer>
                 <h2 className="completedTitle">Completed Items</h2>
@@ -37,7 +38,14 @@ function TodoList({ className }) {
                     {store.completedItems.map(item => (
                         <li key={item.id}>
                             {item.name}
+                            <button class="removeItemButton" onClick={store.removeItem}>
+                                Remove Item
+                            </button>
+                            <button class="addTagButton" onClick={store.addTag}>
+                                Add Tag
+                            </button>
                         </li>
+                
                     ))}
                 </ul>
             </footer>
@@ -49,7 +57,7 @@ function createTodoStore() {
     const self = observable({
         items: [{
             id: uuid(),
-            name: "Sample item",
+            name: "Item 0",
             isComplete: false,
         }],
 
@@ -66,6 +74,18 @@ function createTodoStore() {
                 name: `Item ${self.items.length}`,
             });
         },
+        removeItem(id) {
+            self.items.pop({
+                // id: uuid(),
+                name: `Item ${self.items.id}`,
+            });
+        },
+        addTag() {
+            var x = document.createElement("INPUT");
+            x.setAttribute("type", "text");
+            x.setAttribute("value", "Add tag here");
+            document.body.appendChild(x);
+        },
         setItemName(id, name) {
             const item = self.items.find(i => i.id === id);
             item.name = name;
@@ -80,9 +100,31 @@ function createTodoStore() {
 }
 
 export default styled(observer(TodoList))`
-    background-color: lightgray;
+    background-color: white;
 
-    .title {
-        color: orange;
+    .title, .completedTitle {
+        color: purple;
+    }
+
+    .addItemButton{
+        color: white;
+        background-color: black;
+        border: none;
+        margin-left: 80px;
+        border-radius: 15px;
+    }
+
+    .removeItemButton{
+        color: white;
+        background-color: red;
+        border: none;
+        margin: 0px 5px;
+        border-radius: 15px;
+    }
+    .addTagButton{
+        color: white;
+        background-color: blue;
+        border: none;
+        border-radius: 15px;
     }
 `
